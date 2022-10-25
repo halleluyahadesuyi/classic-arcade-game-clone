@@ -1,8 +1,3 @@
-// Creating a new Player object
-// Creating several new Enemy objects and placing them in an array called allEnemies
-let player = new Player()
-let allEnemies = []
-
 // Enemies our player must avoid
 var Enemy = function(xCoordinate, yCoordinate, gameSpeed) {
     // Variables applied to each of our instances go here,
@@ -87,41 +82,42 @@ Player.prototype.handleInput = function(key) {
         this.x += (505/5)
     };
 
-    // Player moves up when the up arrow or "w" key i pressed
+    // Player moves up when the up arrow or "w" key is pressed
     if ((key == 'up' || key == 'w') && this.y > 0) {
         // height (606) divided by number of tiles (7, i.e 6 plus the one at the base)
         // approximately 86
         this.y -= 86;
     };
 
-    // The player moves downwards with the down arrow or "s" key.
-    // 86 derives by the division of the 606 (height) to the 
-    // number of tiles, i.e. 6+1=7.
+    // Player moves down when the down arrow or "s" key is pressed
     if ((key == 'down' || key == 's') && this.y < 405) {
+        // height (606) divided by number of tiles (7, i.e 6 plus the one at the base)
+        // approximately 86
         this.y += 86;
-        audio.src = 'sounds/OldSchool2.wav';
-        audio.play();
     };
 
-    // The game resets when the player presses the Esc key
-    // http://www.javascripter.net/faq/keycodes.htm
+    // The game starts all over again when Esc key is pressed by player
     if (key == 'esc') {
-        player.restart();
+        player.startAgain();
     };
 
-    // When the player reaches the water, the character spirit goes 
-    // to its starting position, i.e. (x, y) = (200, 400)
+    // The player goes back to its initial position
+    // when it reaches the water i.e. (x, y) = (200, 400)
     if (this.y < 0) {
-        player.reachWaterReset();
+        player.waterContactReset();
     };
 };
 
 
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// Now instantiate your objects
 
+// Place all enemy objects in an array called allEnemies
+var allEnemies = []
+
+
+// Place the player object in a variable called player
+var player = new Player(200, 400)
 
 
 // This listens for key presses and sends the keys to your
