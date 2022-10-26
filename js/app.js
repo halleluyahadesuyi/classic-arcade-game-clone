@@ -18,17 +18,17 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x <= 505) {
-        this.x += this.gameSpeed * dt
+        this.x += this.speed * dt
     }
     else {
-        this.xCoordinate = 0
+        this.x = 0
     }
 
     // Conditional statement for when enemy hits the player
-    if (player.xCoordinate < this.xCoordinate + 80 &&
-        player.xCoordinate + 80 > this.xCoordinate &&
-        player.yCoordinate < this.yCoordinate + 60 &&
-        player.yCoordinate + 60 > this.yCoordinate) {
+    if (player.x < this.x + 80 &&
+        player.x + 80 > this.x &&
+        player.y < this.y + 60 &&
+        player.y + 60 > this.y) {
         player.enemyContactReset();
     };
 };
@@ -49,7 +49,7 @@ var Player = function(xCoordinate, yCoordinate) {
     this.sprite = 'images/char-pink-girl.png';
  };
 
- // update() method
+ // Player update() method
 Player.prototype.update = function() {
     // set boundaries for x-axis
     if (this.x < 0) {
@@ -63,34 +63,34 @@ Player.prototype.update = function() {
     }
 };
 
-// render() method
+// Player render() method
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
 };
 
-// handleInput() method
+// Player handleInput() method
 Player.prototype.handleInput = function(key) {
-    // Player moves to the left when left arrow or "a" key is pressed
-    if ((key == 'left' || key == 'a') && this.x > 0) {
+    // Player moves to the left when left arrow key is pressed
+    if (key == 'left' && this.x > 0) {
         // width (505) divided by number of tiles (5)
         this.x -= (505/5)
     };
 
-    // Player moves to the right when right arrow or "d" key is pressed
-    if ((key == 'right' || key == 'd') && this.x < 405) {
+    // Player moves to the right when right arrow key is pressed
+    if (key == 'right' && this.x < 405) {
         // width (505) divided by number of tiles (5)
         this.x += (505/5)
     };
 
-    // Player moves up when the up arrow or "w" key is pressed
-    if ((key == 'up' || key == 'w') && this.y > 0) {
+    // Player moves up when the up arrow key is pressed
+    if (key == 'up' && this.y > 0) {
         // height (606) divided by number of tiles (7, i.e 6 plus the one at the base)
         // approximately 86
         this.y -= 86;
     };
 
-    // Player moves down when the down arrow or "s" key is pressed
-    if ((key == 'down' || key == 's') && this.y < 405) {
+    // Player moves down when the down arrow key is pressed
+    if (key == 'down' && this.y < 405) {
         // height (606) divided by number of tiles (7, i.e 6 plus the one at the base)
         // approximately 86
         this.y += 86;
@@ -101,7 +101,7 @@ Player.prototype.handleInput = function(key) {
         player.startAgain();
     };
 
-    // The player goes back to its initial position
+    // The player character goes back to its initial position
     // when it reaches the water i.e. (x, y) = (200, 400)
     if (this.y < 0) {
         player.waterContactReset();
@@ -109,11 +109,37 @@ Player.prototype.handleInput = function(key) {
 };
 
 
+Player.prototype.enemyContactReset= function() {
+    // Original position of player, or position to
+    // return to after hitting an enemy
+    this.x = 200
+    this.y = 400
+};
+
+
+Player.prototype.waterContactReset = function() {
+    // Original position of player, or position to
+    // return to after reaching the water area
+    this.x = 200
+    this.y = 400
+};
+
+
+Player.prototype.startAgain = function() {
+    // Original position of player, or position to
+    // return to after reaching the water area
+    this.x = 200
+    this.y = 400
+};
+
 
 // Now instantiate your objects
 
 // Place all enemy objects in an array called allEnemies
-var allEnemies = []
+var enemyOne = new Enemy(-100, 62);
+var enemyTwo = new Enemy(-100, 145);
+var enemyThree = new Enemy(-100, 230);
+var allEnemies = [enemyOne, enemyTwo, enemyThree];
 
 
 // Place the player object in a variable called player
@@ -124,6 +150,7 @@ var player = new Player(200, 400)
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
+        27: 'esc',
         37: 'left',
         38: 'up',
         39: 'right',
