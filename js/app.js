@@ -1,10 +1,10 @@
 // Enemies our player must avoid
-var Enemy = function(xCoordinate, yCoordinate, gameSpeed) {
+var Enemy = function(xCoordinate, yCoordinate, enemySpeed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.x = xCoordinate,
     this.y = yCoordinate,
-    this.speed = gameSpeed;
+    this.speed = enemySpeed;
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -25,10 +25,10 @@ Enemy.prototype.update = function(dt) {
     }
 
     // Conditional statement for when enemy hits the player
-    if (player.x < this.x + 80 &&
-        player.x + 80 > this.x &&
-        player.y < this.y + 60 &&
-        player.y + 60 > this.y) {
+    if (player.x < this.x + 85 &&
+        player.x + 85 > this.x &&
+        player.y < this.y + 62 &&
+        player.y + 62 > this.y) {
         player.enemyContactReset();
     };
 };
@@ -42,14 +42,14 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 // The player class
-var Player = function(xCoordinate, yCoordinate) {
-    this.x = xCoordinate,
-    this.y = yCoordinate,
+var Player = function(x, y) {
+    this.x = x,
+    this.y = y,
   // The image/sprite for the player
     this.sprite = 'images/char-pink-girl.png';
  };
 
- // Player update() method
+ // Player update() method, to not move off-screen
 Player.prototype.update = function() {
     // set boundaries for x-axis
     if (this.x < 0) {
@@ -96,14 +96,10 @@ Player.prototype.handleInput = function(key) {
         this.y += 86;
     };
 
-    // The game starts all over again when Esc key is pressed by player
-    if (key == 'esc') {
-        player.startAgain();
-    };
-
     // The player character goes back to its initial position
-    // when it reaches the water i.e. (x, y) = (200, 400)
+    // when it reaches the water
     if (this.y < 0) {
+        window.alert("You won! Press OK if you want to play again!");
         player.waterContactReset();
     };
 };
@@ -112,7 +108,7 @@ Player.prototype.handleInput = function(key) {
 Player.prototype.enemyContactReset= function() {
     // Original position of player, or position to
     // return to after hitting an enemy
-    this.x = 200
+    this.x = 300
     this.y = 400
 };
 
@@ -120,7 +116,7 @@ Player.prototype.enemyContactReset= function() {
 Player.prototype.waterContactReset = function() {
     // Original position of player, or position to
     // return to after reaching the water area
-    this.x = 200
+    this.x = 300
     this.y = 400
 };
 
@@ -128,7 +124,7 @@ Player.prototype.waterContactReset = function() {
 Player.prototype.startAgain = function() {
     // Original position of player, or position to
     // return to after reaching the water area
-    this.x = 200
+    this.x = 300
     this.y = 400
 };
 
@@ -136,21 +132,19 @@ Player.prototype.startAgain = function() {
 // Now instantiate your objects
 
 // Place all enemy objects in an array called allEnemies
-var enemyOne = new Enemy(-100, 62);
-var enemyTwo = new Enemy(-100, 145);
-var enemyThree = new Enemy(-100, 230);
+var enemyOne = new Enemy(0, 62,  120);
+var enemyTwo = new Enemy(0, 145, 200);
+var enemyThree = new Enemy(0, 230, 150);
 var allEnemies = [enemyOne, enemyTwo, enemyThree];
 
-
 // Place the player object in a variable called player
-var player = new Player(200, 400)
+var player = new Player(300, 400)
 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
-        27: 'esc',
         37: 'left',
         38: 'up',
         39: 'right',
