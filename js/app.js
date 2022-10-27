@@ -41,15 +41,17 @@ Enemy.prototype.render = function() {
 
 // Player class which requires an update(), render() and
 // a handleInput() method.
-var Player = function(x, y) {
-    this.x = x,
-    this.y = y,
+var Player = function(xCoordinate, yCoordinate) {
+    this.x = xCoordinate,
+    this.y = yCoordinate,
+
   // The image/sprite for the player
     this.sprite = 'images/char-pink-girl.png';
  };
 
 
- // Player update() method, to not move off game interface
+ // Player update() method, 
+//  for player character not to leave game interface
 Player.prototype.update = function() {
     // set boundaries for x-axis
     if (this.x < 0) {
@@ -134,9 +136,9 @@ Player.prototype.startAgain = function() {
 // Instantiatiation of objects
 
 // Place all enemy objects in an array called allEnemies
-var enemyOne = new Enemy(0, 62,  120);
-var enemyTwo = new Enemy(0, 145, 200);
-var enemyThree = new Enemy(0, 230, 150);
+var enemyOne = new Enemy(0, 62,  135);
+var enemyTwo = new Enemy(0, 145, 250);
+var enemyThree = new Enemy(0, 230, 200);
 var allEnemies = [enemyOne, enemyTwo, enemyThree];
 
 // Place the player object in a variable called player
